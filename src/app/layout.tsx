@@ -1,7 +1,7 @@
-import Navbar from "@/app/components/navbar";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import './globals.css';
+import "./globals.css";
+import ClientNavbarWrapper from "@/app/components/ClientNavbarWrapper"; // 👈 Import wrapperen
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,11 +27,17 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <script src="https://cdn.tailwindcss.com"></script>
+        <link
+          rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-sA+zT6UFAhNn+nC5w5WGLnPXYRt7aYwlFzheFErxYwY="
+          crossOrigin=""
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased dark:bg-gray-800 dark:text-white`}
       >
-        <Navbar />
+        <ClientNavbarWrapper /> {/* 👈 Klientversjonen av Navbar */}
         {children}
       </body>
     </html>
