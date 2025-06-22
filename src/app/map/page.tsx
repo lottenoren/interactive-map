@@ -36,7 +36,7 @@ export default function WorldMapPage() {
   };
 
   const highlightStyle = {
-    fillColor: "rgb(230,149,94)",
+    fillColor: "rgb(249, 115, 22)",
     fillOpacity: 0.9,
     color: "rgb(60 60 60)",
     weight: 2,
@@ -44,19 +44,19 @@ export default function WorldMapPage() {
 
   const onEachCountry = (feature: any, layer: any) => {
     const name = feature?.properties?.ADMIN || feature?.properties?.NAME || feature?.properties?.name;
-    console.log("🏳️ Setter opp land:", name);
+    console.log("Setter opp land:", name);
     
     if (!name) {
-      console.warn("⚠️ Land uten navn funnet:", feature?.properties);
+      console.warn("Land uten navn funnet:", feature?.properties);
       return;
     }
 
     // Test at event listeners faktisk blir lagt til
-    console.log("🎯 Legger til event listeners for:", name);
+    console.log("Legger til event listeners for:", name);
 
     // Hover inn
     layer.on("mouseover", (e: any) => {
-      console.log("🖱️ Hover inn på:", name);
+      console.log("Hover inn på:", name);
       const hoveredLayer = e.target;
       hoveredLayer.setStyle(highlightStyle);
       hoveredLayer.bringToFront();
@@ -64,13 +64,13 @@ export default function WorldMapPage() {
 
     // Hover ut
     layer.on("mouseout", (e: any) => {
-      console.log("🖱️ Hover ut fra:", name);
+      console.log("Hover ut fra:", name);
       e.target.setStyle(countryStyle);
     });
 
     // KLIKK - dette er hovedfunksjonen
     layer.on("click", async (e: any) => {
-      console.log("🎯 KLIKK REGISTRERT på:", name);
+      console.log("KLIKK REGISTRERT på:", name);
       console.log("Event objekt:", e);
       
       // Stopp event propagation
@@ -83,7 +83,7 @@ export default function WorldMapPage() {
         // Vis loading popup umiddelbart
         const loadingPopup = `
           <div style="text-align: center; padding: 15px;">
-            <div style="font-size: 14px;">🔄 Laster informasjon om <strong>${name}</strong>...</div>
+            <div style="font-size: 14px;">Laster informasjon om <strong>${name}</strong>...</div>
           </div>
         `;
         
