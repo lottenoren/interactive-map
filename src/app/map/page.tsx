@@ -131,6 +131,14 @@ export default function WorldMapPage() {
 
         const encodedCountryName = encodeURIComponent(country.name.common);
 
+        // Lagre geometri-data for bruk på detaljsiden
+        const geometryData = {
+            type: "Feature",
+            properties: feature.properties,
+            geometry: feature.geometry
+        };
+        sessionStorage.setItem(`country_geometry_${country.name.common}`, JSON.stringify(geometryData));
+
         const popupContent = `
           <div style="max-width: 280px; font-size: 13px; line-height: 1.4; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
             <img src="${country.flags.svg}" 
