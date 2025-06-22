@@ -29,6 +29,14 @@ export default function Navbar() {
           >
             Prosjekter
           </Link>
+          <Link
+            href="/countries"
+            className={`text-lg transition-all duration-200 hover:font-semibold hover:text-lg ${
+              pathname === "/countries" ? "text-[rgb(0,116,217)] font-bold" : "text-[rgb(0,116,217)]"
+            }`}
+          >
+            Countries
+          </Link>
         </div>
       </div>
     </nav>
