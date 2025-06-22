@@ -45,6 +45,14 @@ export default function Navbar() {
           >
             Kart
           </Link>
+          <Link
+            href="/quiz"
+            className={`text-lg transition-all duration-200 hover:font-semibold hover:text-lg ${
+              pathname === "/quiz" ? "text-[rgb(0,116,217)] font-bold" : "text-[rgb(0,116,217)]"
+            }`}
+          >
+            Quiz
+          </Link>
         </div>
       </div>
     </nav>
