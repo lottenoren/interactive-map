@@ -35,7 +35,15 @@ export default function Navbar() {
               pathname === "/countries" ? "text-[rgb(0,116,217)] font-bold" : "text-[rgb(0,116,217)]"
             }`}
           >
-            Countries
+            Land
+          </Link>
+          <Link
+            href="/map"
+            className={`text-lg transition-all duration-200 hover:font-semibold hover:text-lg ${
+              pathname === "/map" ? "text-[rgb(0,116,217)] font-bold" : "text-[rgb(0,116,217)]"
+            }`}
+          >
+            Kart
           </Link>
         </div>
       </div>
