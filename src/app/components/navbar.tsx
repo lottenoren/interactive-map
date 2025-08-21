@@ -24,7 +24,7 @@ export default function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 bg-white w-full">
-      <div className="mx-auto max-w-7xl h-18 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <div className="mx-auto max-w-7xl h-20 px-6 sm:px-8 lg:px-10 flex items-center justify-between">
         {/* Logo */}
         <Link
           href="/"
@@ -32,7 +32,7 @@ export default function Navbar() {
           aria-label="Gå til forsiden"
           title="Gå til forsiden"
         >
-          <Image src="/logo-world.png" alt="Logo" width={56} height={56} priority />
+          <Image src="/logo-world.png" alt="Logo" width={60} height={60} priority />
         </Link>
 
         {/* Navigasjon + bruker */}
