@@ -1,19 +1,38 @@
-import Navbar from "@/app/components/navbar";
-
+// src/app/page.tsx
 export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-8">
-      <div className="max-w-2xl text-center">
-        <h1 className="text-4xl font-bold mb-4">Hei! Jeg heter [Ditt Navn]</h1>
-        <p className="text-lg text-gray-700 mb-6">
-          Jeg er en informatikkstudent ved [navn på universitetet], og nå ferdig med mitt andre år.
-          Jeg interesserer meg for webutvikling, frontend, AI og hvordan teknologi kan løse ekte problemer.
-        </p>
-        <p className="text-md text-gray-600">
-          Denne nettsiden er laget for å vise hva jeg kan – og for å dele noen prosjekter jeg har jobbet med
-          underveis i utdanningen og på fritiden.
-        </p>
-      </div>
-    </main>
-  );
-}
+    return (
+        <main className="flex min-h-screen justify-center items-start pt-28 md:pt-36">
+        <section className="max-w-3xl px-4">
+          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900">
+            Utforsk verden!
+          </h1>
+          <p className="mt-4 text-lg text-gray-600">
+            Denne nettsiden samler interaktivt kart, landinformasjon og en liten flaggquiz hvor du kan teste din egen kunnskap. 
+            Bygget i Next.js og Tailwind.
+          </p>
+      
+          <div className="mt-8 flex flex-wrap justify-start gap-3">
+            <a
+              href="/countries"
+              className="inline-flex items-center justify-center rounded-xl border border-blue-300 px-5 py-3 font-semibold text-blue-600 hover:bg-blue-50 transition"
+            >
+              Utforsk land
+            </a>
+            <a
+              href="/map"
+              className="inline-flex items-center justify-center rounded-xl border border-gray-300 px-5 py-3 font-semibold text-gray-800 hover:bg-gray-50 transition"
+            >
+              Åpne kart
+            </a>
+            <a
+              href="/quiz"
+              className="inline-flex items-center justify-center rounded-xl border border-orange-300 px-5 py-3 font-semibold text-orange-600 hover:bg-orange-50 transition"
+            >
+              Ta quiz
+            </a>
+          </div>
+        </section>
+      </main>
+    );
+  }
+  

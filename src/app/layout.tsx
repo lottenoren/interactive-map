@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ClientNavbarWrapper from "@/app/components/ClientNavbarWrapper"; 
 import { SessionProvider } from "next-auth/react"; 
+import Footer from "@/app/components/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,17 +28,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <link
-          rel="stylesheet"
-          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-          integrity="sha256-sA+zT6UFAhNn+nC5w5WGLnPXYRt7aYwlFzheFErxYwY="
-          crossOrigin=""
-        />
+      <script src="https://cdn.tailwindcss.com"></script>
+        {/* Leaflet CSS lastes via globals.css */}
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased dark:bg-gray-800 dark:text-white`}>
-        <ClientNavbarWrapper /> 
-        {children} 
+        <div className="min-h-screen flex flex-col">
+          <ClientNavbarWrapper />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </div>
       </body>
     </html>
   );
