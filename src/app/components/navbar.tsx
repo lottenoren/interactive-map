@@ -24,16 +24,16 @@ export default function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 bg-white w-full">
-      <div className="mx-auto max-w-7xl h-16 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <div className="mx-auto max-w-7xl h-18 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Logo */}
-        <div className="flex items-center gap-2 select-none cursor-default" aria-label="Logo">
-          <img
-            src="/logo-world.png"
-            alt="Logo"
-            className="h-14 w-auto"
-            draggable={false}
-          />
-        </div>
+        <Link
+          href="/"
+          className="flex items-center gap-2 select-none cursor-pointer"
+          aria-label="Gå til forsiden"
+          title="Gå til forsiden"
+        >
+          <Image src="/logo-world.png" alt="Logo" width={56} height={56} priority />
+        </Link>
 
         {/* Navigasjon + bruker */}
         <div className="flex items-center space-x-6">
