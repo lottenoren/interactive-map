@@ -5,7 +5,7 @@ import CountryMap from "./countryMap";
 
 export const dynamic = 'force-dynamic';
 
-export default async function CountryPage({ params }: { params: Promise<{ name: string }> }) {
+export default async function CountryPage({ params }: { params: { name: string } }) {
   // Await params først
   const { name } = await params;
   const decodedName = decodeURIComponent(name);
