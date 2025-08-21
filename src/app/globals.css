@@ -1,7 +1,7 @@
 @import 'leaflet/dist/leaflet.css';
 
 :root {
-  --background: 250 250 245;
+  --background: 255 255 255;
   --foreground: 60 60 60;
   --primary: 29 78 216;
   --nav: 250 250 245;
