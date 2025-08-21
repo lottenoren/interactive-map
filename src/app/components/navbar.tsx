@@ -23,32 +23,20 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="w-full bg-[rgb(var(--nav))]">
-      <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+    <nav className="sticky top-0 z-50 bg-white w-full">
+      <div className="mx-auto max-w-7xl h-16 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/">
-          <img src="/logo.png" alt="Logo" className="h-10 w-auto" />
-        </Link>
+        <div className="flex items-center gap-2 select-none cursor-default" aria-label="Logo">
+          <img
+            src="/logo-world.png"
+            alt="Logo"
+            className="h-14 w-auto"
+            draggable={false}
+          />
+        </div>
 
         {/* Navigasjon + bruker */}
         <div className="flex items-center space-x-6">
-          {/* Navigasjonslenker */}
-          <Link
-            href="/"
-            className={`text-lg transition-all duration-200 hover:font-semibold ${
-              pathname === "/" ? "text-[rgb(0,116,217)] font-bold" : "text-[rgb(0,116,217)]"
-            }`}
-          >
-            Hjem
-          </Link>
-          <Link
-            href="/projects"
-            className={`text-lg transition-all duration-200 hover:font-semibold ${
-              pathname === "/projects" ? "text-[rgb(0,116,217)] font-bold" : "text-[rgb(0,116,217)]"
-            }`}
-          >
-            Prosjekter
-          </Link>
           <Link
             href="/countries"
             className={`text-lg transition-all duration-200 hover:font-semibold ${
