@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
-import type { QuizResult } from "@prisma/client";
+import type { QuizResult } from "@prisma/client"; // <- kun som type
 
 export default async function ResultsPage() {
   const session = await getServerSession(authOptions);
@@ -12,8 +12,13 @@ export default async function ResultsPage() {
     return (
       <main className="min-h-screen flex flex-col items-center justify-center p-8 text-center">
         <h1 className="text-2xl font-bold mb-4">Resultater</h1>
-        <p className="text-gray-600 mb-4">Du må være logget inn for å se dine resultater.</p>
-        <Link href="/quiz" className="px-6 py-3 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition">
+        <p className="text-gray-600 mb-4">
+          Du må være logget inn for å se dine resultater.
+        </p>
+        <Link
+          href="/quiz"
+          className="px-6 py-3 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition"
+        >
           Gå til quiz
         </Link>
       </main>
@@ -32,7 +37,7 @@ export default async function ResultsPage() {
   const results = await prisma.quizResult.findMany({
     where: { userId: user.id },
     orderBy: { createdAt: "desc" },
-    take: 50, // hent siste 50
+    take: 50,
   });
 
   return (
@@ -55,9 +60,15 @@ export default async function ResultsPage() {
             <tbody>
               {results.map((r: QuizResult) => (
                 <tr key={r.id} className="border-t">
-                  <td className="px-4 py-2">{new Date(r.createdAt).toLocaleString("no-NO")}</td>
+                  <td className="px-4 py-2">
+                    {new Date(r.createdAt).toLocaleString("no-NO")}
+                  </td>
                   <td className="px-4 py-2 capitalize">
-                    {r.level === "easy" ? "Lett" : r.level === "medium" ? "Medium" : "Vanskelig"}
+                    {r.level === "easy"
+                      ? "Lett"
+                      : r.level === "medium"
+                      ? "Medium"
+                      : "Vanskelig"}
                   </td>
                   <td className="px-4 py-2">
                     {r.score} / {r.total}
