@@ -1,19 +1,25 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useSession } from 'next-auth/react';
 
 type Country = {
   name: { common: string };
   flags: { svg: string };
 };
 
+type Level = 'easy' | 'medium' | 'hard' | null;
+type SaveState = 'idle' | 'saving' | 'done' | 'error';
+
 export default function FlagQuizPage() {
+  const { data: session } = useSession();
+
   const [countries, setCountries] = useState<Country[]>([]);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [quizStarted, setQuizStarted] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
-  const [level, setLevel] = useState<'easy' | 'medium' | 'hard' | null>(null);
+  const [level, setLevel] = useState<Level>(null);
   const [chooseLevel, setChooseLevel] = useState(false);
   const [question, setQuestion] = useState<{
     flag: string;
@@ -21,39 +27,83 @@ export default function FlagQuizPage() {
     options: string[];
   } | null>(null);
 
+  // lagring-status
+  const [saved, setSaved] = useState<SaveState>('idle');
+
+  // tidtaking
+  const startedAtRef = useRef<number | null>(null);
+
   const totalQuestions = 10;
 
+  // Hent land
   useEffect(() => {
     fetch('https://restcountries.com/v3.1/all?fields=name,flags')
       .then((res) => res.json())
       .then((data) => setCountries(data));
   }, []);
 
+  // Start quiz når vi har nivå og data
   useEffect(() => {
     if (level && countries.length > 0 && !quizStarted) {
       setQuizStarted(true);
+      startedAtRef.current = Date.now();
       generateQuestion();
     }
-  }, [level, countries]);
+  }, [level, countries, quizStarted]);
 
+  // Generer nytt spørsmål ved neste index
   useEffect(() => {
     if (quizStarted && countries.length > 0 && questionIndex < totalQuestions) {
       generateQuestion();
     }
-  }, [questionIndex]);
+  }, [questionIndex, quizStarted, countries]);
+
+  // ---- LAGRE RESULTAT NÅR FERDIG ----
+  useEffect(() => {
+    const save = async () => {
+      if (questionIndex < totalQuestions) return; // ikke ferdig
+      if (!session) return;                       // må være innlogget
+      if (saved !== 'idle') return;               // unngå dobbel-post
+
+      setSaved('saving');
+      try {
+        const durationMs =
+          startedAtRef.current ? Date.now() - startedAtRef.current : null;
+
+        await fetch('/api/quiz-results', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            level,                 // "easy" | "medium" | "hard"
+            score,                 // antall riktige
+            total: totalQuestions, // totalt
+            durationMs,            // hvor lang tid
+            answers: null,         // evt. lagre brukers svar her senere
+          }),
+        });
+
+        setSaved('done');
+      } catch {
+        setSaved('error');
+      }
+    };
+
+    save();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [questionIndex, totalQuestions, session]);
+
+  // -------------------------------
 
   const generateQuestion = () => {
     let filtered = countries;
 
     if (level === 'easy') {
       const europeanCountries = [
-        "Norway", "Sweden", "France", "Germany", "Italy", "Spain", "Portugal",
-        "Finland", "Denmark", "Poland", "Netherlands", "Belgium", "Switzerland",
-        "Austria", "Greece", "Iceland", "Ireland", "Estonia", "Latvia", "Lithuania",
+        'Norway', 'Sweden', 'France', 'Germany', 'Italy', 'Spain', 'Portugal',
+        'Finland', 'Denmark', 'Poland', 'Netherlands', 'Belgium', 'Switzerland',
+        'Austria', 'Greece', 'Iceland', 'Ireland', 'Estonia', 'Latvia', 'Lithuania',
       ];
-      filtered = countries.filter((c) =>
-        europeanCountries.includes(c.name.common)
-      );
+      filtered = countries.filter((c) => europeanCountries.includes(c.name.common));
     }
 
     const correct = filtered[Math.floor(Math.random() * filtered.length)];
@@ -95,8 +145,11 @@ export default function FlagQuizPage() {
     setScore(0);
     setQuestion(null);
     setSelected(null);
+    setSaved('idle');
+    startedAtRef.current = null;
   };
 
+  // Start-skjerm
   if (!level && !chooseLevel) {
     return (
       <main className="min-h-screen flex items-center justify-center flex-col text-center p-8">
@@ -120,6 +173,7 @@ export default function FlagQuizPage() {
     );
   }
 
+  // Velg nivå
   if (!level && chooseLevel) {
     return (
       <main className="min-h-screen flex items-center justify-center flex-col text-center p-8">
@@ -154,6 +208,7 @@ export default function FlagQuizPage() {
     );
   }
 
+  // Ferdig-skjerm
   if (questionIndex >= totalQuestions) {
     return (
       <main className="min-h-screen flex items-center justify-center flex-col text-center p-8">
@@ -164,6 +219,19 @@ export default function FlagQuizPage() {
         <p className="text-xl mb-4">
           Du fikk <strong>{score}</strong> av {totalQuestions} riktige.
         </p>
+
+        {session ? (
+          <p className="text-sm text-gray-500 mb-4">
+            {saved === 'saving' && 'Lagrer resultat…'}
+            {saved === 'done' && 'Resultat lagret på profilen din'}
+            {saved === 'error' && 'Kunne ikke lagre resultatet'}
+          </p>
+        ) : (
+          <p className="text-sm text-gray-500 mb-4">
+            Logg inn for å lagre resultatet på profilen din.
+          </p>
+        )}
+
         <button
           onClick={handleRestart}
           className="px-6 py-3 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition"
@@ -174,6 +242,7 @@ export default function FlagQuizPage() {
     );
   }
 
+  // Spørsmål-skjerm
   if (!question) return <div className="p-8">Laster spørsmål...</div>;
 
   return (
