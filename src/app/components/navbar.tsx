@@ -62,6 +62,17 @@ export default function Navbar() {
             Quiz
           </Link>
 
+          <Link
+            href="/quiz/results"
+            className={`text-lg transition-all duration-200 hover:font-semibold ${
+              pathname === "/quiz/results"
+                ? "text-[rgb(0,116,217)] font-bold"
+                : "text-[rgb(0,116,217)]"
+            }`}
+          >
+            Resultater
+          </Link>
+
           {/* Brukerikon eller login-knapp */}
           {session ? (
             <div className="relative" ref={menuRef}>
