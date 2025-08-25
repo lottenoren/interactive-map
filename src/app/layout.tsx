@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ClientNavbarWrapper from "@/app/components/ClientNavbarWrapper"; 
-import { SessionProvider } from "next-auth/react"; 
 import Footer from "@/app/components/footer";
+import Providers from "./providers"; // <-- importer her
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,22 +22,21 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
       <head>
-      <script src="https://cdn.tailwindcss.com"></script>
-        {/* Leaflet CSS lastes via globals.css */}
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased dark:bg-gray-800 dark:text-white`}>
-        <div className="min-h-screen flex flex-col">
-          <ClientNavbarWrapper />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </div>
+        <Providers>
+          <div className="min-h-screen flex flex-col">
+            <ClientNavbarWrapper />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </div>
+        </Providers>
       </body>
     </html>
   );
