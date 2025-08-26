@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Interaktivt kart, landinformasjon og flaggquiz
 
-## Getting Started
+En Next.js-app som kombinerer:
+- **Interaktivt verdenskart** (Leaflet/React-Leaflet) med GeoJSON-grenser og popups.
+- **Landdetaljer** (REST Countries API) med dynamiske sider og kart pr. land.
+- **Flaggquiz** med tre vanskelighetsgrader – resultater lagres per bruker.
+- **Innlogging med Google** (NextAuth) og **persistens i Postgres via Prisma**.
 
-First, run the development server:
+> Bygget for å demonstrere fullstack-kompetanse: datahenting, app-router, serverløse API-ruter, autentisering/sesjon, klientside-kart uten SSR-problemer, og en ryddig UI med Tailwind.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Hovedfunksjoner
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Landoversikt og detaljer**
+  - På `/countries` får du opp en liste med alle land (med flagg og navn).  
+  - Klikker du på et land, åpnes en egen side `/countries/[name]` med mer info som språk, valuta, tidssoner og et kart som viser landet.
 
-## Learn More
+- **Verdenskart**
+  - På `/map` kan du utforske et interaktivt kart over hele verden.  
+  - Du kan holde musepekeren over land for å se navn, og klikke for å få opp flagg og en snarvei til landets side.
 
-To learn more about Next.js, take a look at the following resources:
+- **Flaggquiz**
+  - På `/quiz` kan du teste deg selv i en quiz med 10 spørsmål.  
+  - Du kan velge vanskelighetsgrad (lett, medium, vanskelig), og når du er ferdig får du poengsummen din.  
+  - Hvis du er innlogget, lagres resultatet ditt automatisk.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Resultater**
+  - På `/quiz/results` kan innloggede brukere se en oversikt over sine tidligere resultater (dato, nivå, poeng og tid brukt).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Innlogging**
+  - Det er mulig å logge inn med Google.  
+  - Da kan du lagre og hente resultater som knyttes til din bruker.
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Teknologistack
+
+- **Frontend:** Next.js (App Router), React, TypeScript, Tailwind CSS
+- **Kart:** Leaflet + React-Leaflet, OpenStreetMap, GeoJSON
+- **Auth:** NextAuth (Google provider, Prisma adapter)
+- **Database:** Postgres (Prisma ORM)
+
+
+
+## Demo-bilder 
+
+**Hjemside**
+
+<img src="public/img/Home_page.png" width="500"/>
+
+
+
+**Land**
+
+<img src="public/img/Land.png" width="500"/>
+
+
+
+**Kart**
+<p align="center">
+  <img src="public/img/Map_1.png" width="250"/>
+  <img src="public/img/Map_2.png" width="250"/>
+  <img src="public/img/Map_3.png" width="250"/>
+</p>
+
+
+**Quiz**
+<p align="center">
+  <img src="public/img/Quiz_1.png" width="250"/>
+  <img src="public/img/Quiz_2.png" width="250"/>
+  <img src="public/img/Quiz_3.png" width="250"/>
+</p>
+
+
+**Resultater**
+<p align="center">
+  <img src="public/img/Results_uten_login.png" width="250"/>
+  <img src="public/img/Results_med_login.png" width="250"/>
+</p>
+
+
+**Logg inn med Google Authenticator**
+
+<img src="public/img/Login.png" width="500"/>
+
+
+
+
+## Demo av nettsiden
